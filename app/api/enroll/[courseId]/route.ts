@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 import { getUserFromToken } from "@/lib/auth";
 
 const prisma = new PrismaClient();
@@ -8,39 +8,74 @@ export async function POST(
   req: Request,
   { params }: { params: Promise<{ courseId: string }> }
 ) {
-  const resolvedParams = await params;
-  const courseId = Number(resolvedParams.courseId);
+  try {
+    const user = await getUserFromToken();
 
-  if (!courseId || isNaN(courseId)) {
-    return NextResponse.json({ error: "Invalid course ID" }, { status: 400 });
-  }
+    if (!user) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
 
-  // ✅ get user from JWT
-  const user = await getUserFromToken();
+    const resolvedParams = await params;
+    const parsedCourseId = Number(resolvedParams.courseId);
 
-  // 🔥 ONLY CHANGE HERE
-  if (!user) {
-    return NextResponse.redirect(
-      new URL(`/login?redirect=/courses/${courseId}&message=Please login to enroll`, req.url)
-    );
-  }
+    if (!parsedCourseId || isNaN(parsedCourseId)) {
+      return NextResponse.json(
+        { error: "Invalid courseId" },
+        { status: 400 }
+      );
+    }
 
-  // rest stays SAME
-  const existingEnrollment = await prisma.enrollment.findFirst({
-    where: {
-      userId: user.userId,
-      courseId: courseId,
-    },
-  });
+    const parsedUserId = Number(user.userId);
 
-  if (!existingEnrollment) {
-    await prisma.enrollment.create({
-      data: {
-        userId: user.userId,
-        courseId: courseId,
+    if (!parsedUserId || isNaN(parsedUserId)) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+
+ 
+    const existingUser = await prisma.user.findUnique({
+      where: { id: parsedUserId },
+    });
+
+    if (!existingUser) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+
+   
+    const existingCourse = await prisma.course.findUnique({
+      where: { id: parsedCourseId },
+    });
+
+    if (!existingCourse) {
+      return NextResponse.json(
+        { error: "Course not found" },
+        { status: 404 }
+      );
+    }
+
+    
+    const existing = await prisma.enrollment.findFirst({
+      where: {
+        userId: parsedUserId,
+        courseId: parsedCourseId,
       },
     });
-  }
 
-  return NextResponse.redirect(new URL(`/courses/${courseId}`, req.url));
+    if (!existing) {
+      await prisma.enrollment.create({
+        data: {
+          userId: parsedUserId,
+          courseId: parsedCourseId,
+        },
+      });
+    }
+
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
+  }
 }

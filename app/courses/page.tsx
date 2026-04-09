@@ -1,11 +1,14 @@
+
 import { PrismaClient } from "@prisma/client";
 import Link from "next/link";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { BookOpen, ArrowRight, Sparkles } from "lucide-react";
 
 const prisma = new PrismaClient();
 
-// Server component
 export default async function CoursesPage() {
-  // Fetch courses from the database
   const courses = await prisma.course.findMany({
     select: {
       id: true,
@@ -15,28 +18,106 @@ export default async function CoursesPage() {
     },
   });
 
+  const gradients = [
+  
+   { border: "border-black",    from: "from-blue-950",    badge: "bg-blue-500/20 text-blue-400 border-blue-700",       accent: "text-blue-400"    },
+
+  ];
+
   return (
-    <div className="max-w-6xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-6">All Courses</h1>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {courses.map((course) => (
-          <div key={course.id} className="border rounded-lg p-4 shadow hover:shadow-lg transition">
-            <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
-            <p className="text-gray-600 mb-4">
-              {course.description.length > 100
-                ? course.description.slice(0, 100) + "..."
-                : course.description}
-            </p>
-            <p className="font-bold mb-4">${course.price.toFixed(2)}</p>
-            <Link
-              href={`/courses/${course.id}`}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-            >
-              View Course
-            </Link>
-          </div>
-        ))}
+    <div className="bg-black min-h-screen text-white">
+
+   
+      <div className="max-w-6xl mx-auto px-4 pt-16 pb-10 text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-700 bg-white/5 backdrop-blur mb-6">
+          <Sparkles size={14} className="text-emerald-400" />
+          <span className="text-sm text-gray-300">Explore all courses</span>
+        </div>
+
+        <h1 className="text-4xl sm:text-6xl font-bold mb-4">
+          <span className="text-white">All </span>
+          <span className="text-white bg-clip-text text-transparent">
+            Courses
+          </span>
+        </h1>
+
+        <p className="text-gray-400 text-lg max-w-xl mx-auto">
+          Hand-picked, structured learning paths built to take you from zero to job-ready.
+        </p>
       </div>
+
+    
+      <div className="max-w-6xl mx-auto px-4 pb-20">
+        {courses.length === 0 ? (
+          <div className="text-center py-24">
+            <BookOpen size={48} className="mx-auto text-gray-600 mb-4" />
+            <p className="text-gray-500 text-lg">No courses available yet. Check back soon.</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {courses.map((course, idx) => {
+              const g = gradients[idx % gradients.length];
+              return (
+                <Card
+                  key={course.id}
+                  className={`
+                    bg-gradient-to-b ${g.from} to-black
+                    border ${g.border}
+                    rounded-2xl overflow-hidden
+                    hover:scale-[1.02] hover:shadow-2xl
+                    transition-all duration-300
+                    flex flex-col
+                  `}
+                >
+                  <CardHeader className="pb-2 pt-6 px-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge
+                        variant="outline"
+                        className={`text-xs px-3 py-1 rounded-full border ${g.badge}`}
+                      >
+                        Course
+                      </Badge>
+                      <div className="flex items-center gap-1">
+                        <BookOpen size={14} className={g.accent} />
+                        <span className={`text-xs ${g.accent}`}>Structured</span>
+                      </div>
+                    </div>
+                    <CardTitle className="text-white text-xl font-bold leading-snug">
+                      {course.title}
+                    </CardTitle>
+                  </CardHeader>
+
+                  <CardContent className="px-6 pb-4 flex-1">
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                      {course.description.length > 110
+                        ? course.description.slice(0, 110) + "..."
+                        : course.description}
+                    </p>
+                  </CardContent>
+
+                  <CardFooter className="px-6 pb-6 flex items-center justify-between  bg-mist-950">
+                    <div>
+                      <p className="text-xs text-white uppercase tracking-widest mb-0.5">Price</p>
+                      <p className={`text-2xl font-bold ${g.accent}`}>
+                        ${course.price.toFixed(2)}
+                      </p>
+                    </div>
+                    <Link href={`/courses/${course.id}`}>
+                      <Button
+                        className="bg-black text-white hover:bg-gray-900 font-semibold rounded-xl px-5 py-2 flex items-center gap-2 transition"
+                      >
+                        View Course
+                        <ArrowRight size={15} />
+                      </Button>
+                    </Link>
+                  </CardFooter>
+                </Card>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
     </div>
   );
 }

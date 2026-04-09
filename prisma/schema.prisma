@@ -49,7 +49,7 @@ model Enrollment {
   course   Course @relation(fields: [courseId], references: [id])
   courseId Int
   createdAt DateTime @default(now())
-  // optionally track lesson completion
+  
   completions LessonCompletion[]
 }
 
@@ -63,7 +63,3 @@ model LessonCompletion {
   @@unique([lessonId, enrollmentId])
 }
 
-// enum Role {
-//   USER
-//   ADMIN
-// }

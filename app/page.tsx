@@ -1,27 +1,44 @@
 // app/page.tsx
-import { User, LogIn, BookOpen, BarChart2, CreditCard, Shield, Server, Lock } from "lucide-react";
+"use client";
+
+import {
+  User,
+  LogIn,
+  BookOpen,
+  BarChart2,
+  Target,
+  BookOpenCheck,
+  Zap,
+} from "lucide-react";
 import Link from "next/link";
-import { Button } from "./components/ui/button";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const marqueeItems = [
-  { icon: <BookOpen size={20} />, title: "Course Catalog", quote: "Browse structured courses" },
-  { icon: <BarChart2 size={20} />, title: "Progress Tracking", quote: "Monitor lesson completion" },
-  { icon: <User size={20} />, title: "Enrollment", quote: "Enroll with one click" },
-  { icon: <BarChart2 size={20} />, title: "Dashboard", quote: "Your personal hub" },
-  { icon: <CreditCard size={20} />, title: "Stripe Checkout", quote: "Secure payments" },
-  { icon: <Shield size={20} />, title: "Auth & Security", quote: "Protected routes" },
-];
-
-const features = [
-  { title: "Role-Based Access", desc: "Admins and students get personalized dashboards and controls." },
-  { title: "Stripe Checkout", desc: "Secure test-mode payments with webhook-triggered enrollment." },
-  { title: "Progress Tracking", desc: "Lesson-by-lesson completion with clear visual indicators." },
-  { title: "Bot Protection", desc: "Arcjet rate limiting on login and enrollment endpoints." },
-  { title: "Server Rendering", desc: "Course catalogue is fully server-rendered for SEO performance." },
-  { title: "Auth Middleware", desc: "Dashboard is protected — unauthenticated users are redirected." },
-  { title: "DAL Pattern", desc: "Business logic lives in the data access layer, not UI components." },
-  { title: "GitHub OAuth", desc: "One-click login via GitHub. OTP email support included." },
-  { title: "Smart Schema", desc: "Postgres schema: User → Course → Chapter → Lesson → Enrollment." },
+const cards = [
+  {
+    icon: <Target size={28} className="text-blue-400" />,
+    title: "Placement-Ready Content",
+    desc: "Curated topics aligned with what top companies actually test — DSA, system design, aptitude, and core CS fundamentals. Every lesson is built to get you hired.",
+    img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=80",
+  },
+  {
+    icon: <BookOpenCheck size={28} className="text-blue-400" />,
+    title: "Chapter-Wise Structured Courses",
+    desc: "Courses broken into clean chapters with detailed lessons inside each. No jumping around — just a clear path from beginner to confident.",
+    img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&q=80",
+  },
+  {
+    icon: <Zap size={28} className="text-blue-400" />,
+    title: "Modern & Regularly Updated",
+    desc: "Content stays current with the industry. New tools, frameworks, and interview patterns are added continuously so you're never learning outdated material.",
+    img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80",
+  },
+  {
+    icon: <BarChart2 size={28} className="text-blue-400" />,
+    title: "Track Your Learning",
+    desc: "See exactly where you are. Mark lessons complete, view progress per course, and keep your learning structured so nothing slips through the cracks.",
+    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
+  },
 ];
 
 export default function Home() {
@@ -29,13 +46,13 @@ export default function Home() {
     <div className="bg-black min-h-screen text-white">
 
       {/* Navbar */}
-      <div className="flex justify-between items-center px-6 py-4">
-        <h4 className="text-xl text-white">Learnopia</h4>
+      <div className="flex justify-between items-center px-6 py-4 border-b border-white/5">
+        <h4 className="text-xl font-bold text-white">Learnopia</h4>
         <div className="flex gap-3">
           <Link href="/login">
             <Button
               variant="outline"
-              className="border-white text-white bg-transparent hover:bg-white hover:text-black transition"
+              className="border-blue-200/60 text-white bg-transparent hover:bg-blue-950/40 hover:text-white transition"
             >
               <LogIn size={16} className="mr-1" />
               Login
@@ -43,8 +60,8 @@ export default function Home() {
           </Link>
           <Link href="/courses">
             <Button
-              variant="outline"
-              className="border-white text-white bg-transparent hover:bg-white hover:text-black transition"
+              className="font-semibold transition"
+              style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)" }}
             >
               <BookOpen size={16} className="mr-1" />
               Browse Courses
@@ -54,35 +71,44 @@ export default function Home() {
       </div>
 
       {/* Hero */}
-      <div className="flex flex-col items-center justify-center px-4 text-center mt-10">
-        <div className="flex items-center gap-3 mb-6 px-4 py-2 rounded-full bg-black/50 backdrop-blur-md border border-gray-700 shadow-md">
-          <span className="px-3 py-1 text-sm font-medium bg-emerald-500 text-black rounded-full">
+      <div
+        className="flex flex-col items-center justify-center px-4 text-center pt-20 pb-16"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.15) 0%, transparent 65%)",
+        }}
+      >
+        <div className="flex items-center gap-3 mb-8 px-4 py-2 rounded-full border border-blue-700/40 bg-blue-950/30">
+          <span className="px-3 py-1 text-xs font-semibold bg-blue-500/20 text-blue-400 border border-blue-700/50 rounded-full">
             New
           </span>
-          <span className="text-sm text-blue-400 font-medium">Learn at your own pace</span>
+          <span className="text-sm text-white font-medium">Learn at your own pace</span>
         </div>
 
-        <h1 className="text-2xl sm:text-6xl font-bold text-white mb-2">
+        <h1 className="text-3xl sm:text-6xl font-bold text-white mb-2 leading-tight">
           Forget Scattered Tutorials.
         </h1>
-        <h1 className="text-2xl sm:text-6xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+        <h1 className="text-3xl sm:text-6xl font-bold bg-gradient-to-r from-blue-300 to-blue-800 bg-clip-text text-transparent leading-tight">
           Get Structured Learning
         </h1>
 
-        <p className="mt-6 text-gray-400 text-base sm:text-lg max-w-md">
+        <p className="mt-6 text-gray-500 text-base sm:text-lg max-w-md">
           Your all-in-one platform for courses, progress tracking, and real skills.
         </p>
 
         <div className="flex gap-4 mt-8">
           <Link href="/courses">
-            <Button className="bg-emerald-500 text-black hover:bg-emerald-400 font-semibold px-6 py-2">
+            <Button
+              className="font-bold px-7 py-5 text-sm transition"
+              style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)" }}
+            >
               Explore Courses
             </Button>
           </Link>
           <Link href="/login">
             <Button
               variant="outline"
-              className="border-gray-600 text-white bg-transparent hover:bg-gray-800"
+              className="border-blue-700/50 text-white bg-transparent hover:bg-blue-950/40 px-7 py-5 text-sm"
             >
               Get Started
             </Button>
@@ -90,86 +116,81 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Image / Feature Grid */}
-      <div className="grid grid-cols-2 gap-6 max-w-xl mx-auto p-6 mt-10">
+      {/* 4 Images Grid */}
+      <div className="grid grid-cols-2 gap-4 max-w-xl mx-auto px-6 mt-4 mb-20">
         {[
-          { label: "Course Catalogue", color: "from-blue-900 to-blue-800" },
-          { label: "Progress Tracker", color: "from-emerald-900 to-emerald-800" },
-          { label: "Live Lessons", color: "from-purple-900 to-purple-800" },
-          { label: "Certificates", color: "from-amber-900 to-amber-800" },
-        ].map((item, i) => (
+          "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80",
+          "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&q=80",
+          "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80",
+          "https://img.pikbest.com/backgrounds/20250128/e-learning-concept-with-digital-education-icons-and-online-course-platform_11462961.jpg!bwr800",
+        ].map((src, i) => (
           <div
             key={i}
-            className={`overflow-hidden rounded-xl shadow-lg bg-gradient-to-br ${item.color} h-28 flex items-center justify-center border border-gray-700`}
+            className="overflow-hidden rounded-xl h-36 border border-blue-700/20"
+            style={{ boxShadow: "0 0 0 1px rgba(37,99,235,0.1), 0 8px 30px rgba(37,99,235,0.1)" }}
           >
-            <span className="text-white font-semibold text-sm">{item.label}</span>
+            <img
+              src={src}
+              alt={`Feature ${i + 1}`}
+              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105 opacity-80 hover:opacity-100"
+            />
           </div>
         ))}
       </div>
 
-      {/* Marquee */}
-      <div className="text-center mt-16 mb-4 text-2xl font-semibold tracking-widest text-amber-100">
-        What Do We Have?
-      </div>
+      {/* 4 Feature Cards */}
+      <div className="max-w-5xl mx-auto px-6 mb-20">
+        <h2 className="text-2xl font-bold text-white mb-1 text-center">What do we have?</h2>
+        <p className="text-white text-4xl text-center mb-10">Everything you need to go from zero to job-ready.</p>
 
-      <div className="overflow-hidden whitespace-nowrap">
-        {/* 
-          Tailwind config — add to tailwind.config.ts:
-          animation: { marquee: 'marquee 20s linear infinite' },
-          keyframes: { marquee: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } } }
-        */}
-        <div className="flex gap-6 px-6 animate-marquee w-max">
-          {[...marqueeItems, ...marqueeItems].map((item, index) => (
-            <div
-              key={index}
-              className="min-w-[200px] bg-black border-2 border-gray-500 text-white p-4 rounded-xl hover:scale-105 transition-transform"
-            >
-              <div className="mb-2 text-blue-400">{item.icon}</div>
-              <h3 className="text-lg font-bold">{item.title}</h3>
-              <p className="text-sm text-gray-300">{item.quote}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* What Makes Us Different */}
-      <div className="bg-black text-white py-16 px-4 sm:px-8">
-        <h2 className="text-amber-100 text-3xl sm:text-4xl font-semibold tracking-widest text-center mb-12">
-          What Makes Us Different?
-        </h2>
-
-        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-6xl mx-auto">
-          {features.map((item, idx) => (
-            <div
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {cards.map((item, idx) => (
+            <Card
               key={idx}
-              className="bg-gradient-to-bl from-black to-zinc-900 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all border border-gray-800"
+              className="rounded-2xl overflow-hidden text-white border border-gray-700/20 hover:scale-[1.01]"
+              style={{
+              background: "linear-gradient(to bottom, #111827, #000000)",
+                boxShadow:
+                  "0 0 0 1px rgba(37,99,235,0.12), 0 20px 50px rgba(37,99,235,0.1)",
+              }}
             >
-              <h3 className="text-xl font-semibold mb-2 text-blue-300">{item.title}</h3>
-              <p className="text-gray-300 text-sm">{item.desc}</p>
-            </div>
+              <div className="w-full h-40 overflow-hidden">
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <CardHeader className="pb-2 pt-5">
+                <div className="mb-2">{item.icon}</div>
+                <CardTitle className="text-base font-semibold text-white">{item.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-8 px-6 mt-10 border-t-2 border-gray-600">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
+      <footer className="border-t border-white/5 py-8 px-6">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
           <div>
-            <h3 className="text-xl font-semibold text-white">Learnopia</h3>
-            <p className="text-sm text-gray-400 mt-1">Structured learning, beautifully delivered.</p>
+            <h3 className="text-base font-semibold text-white">Learnopia</h3>
+            <p className="text-sm text-gray-600 mt-1">Structured learning, beautifully delivered.</p>
           </div>
-
-          <div className="flex gap-4 text-sm text-gray-400">
-            <Link href="/about" className="hover:text-white transition">About</Link>
-            <Link href="/privacy" className="hover:text-white transition">Privacy</Link>
-            <Link href="/contact" className="hover:text-white transition">Contact</Link>
+          <div className="flex gap-5 text-sm text-gray-600">
+            <Link href="/about" className="hover:text-blue-400 transition">About</Link>
+            <Link href="/privacy" className="hover:text-blue-400 transition">Privacy</Link>
+            <Link href="/contact" className="hover:text-blue-400 transition">Contact</Link>
           </div>
-
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-700">
             © {new Date().getFullYear()} Learnopia. All rights reserved.
           </div>
         </div>
       </footer>
+
     </div>
   );
 }
