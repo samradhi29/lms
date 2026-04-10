@@ -1,27 +1,46 @@
+export const runtime = "nodejs"; // ✅ REQUIRED
 export const dynamic = "force-dynamic";
-import { prisma } from "@/lib/prisma"
-import { NextResponse } from "next/server"
-import { sendOTP } from "@/lib/mailer"
+
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
+import { sendOTP } from "@/lib/mailer";
 
 export async function POST(req: Request) {
-  const { email } = await req.json()
+  try {
+    const { email } = await req.json();
 
-  const otp = Math.floor(100000 + Math.random() * 900000).toString()
+    if (!email) {
+      return NextResponse.json(
+        { error: "Email is required" },
+        { status: 400 }
+      );
+    }
 
-  await prisma.user.upsert({
-    where: { email },
-    update: {
-      otp,
-      otpExpiry: new Date(Date.now() + 5 * 60 * 1000),
-    },
-    create: {
-      email,
-      otp,
-      otpExpiry: new Date(Date.now() + 5 * 60 * 1000),
-    },
-  })
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-  await sendOTP(email, otp)
+    await prisma.user.upsert({
+      where: { email },
+      update: {
+        otp,
+        otpExpiry: new Date(Date.now() + 5 * 60 * 1000),
+      },
+      create: {
+        email,
+        otp,
+        otpExpiry: new Date(Date.now() + 5 * 60 * 1000),
+      },
+    });
 
-  return NextResponse.json({ success: true })
+    await sendOTP(email, otp);
+
+    return NextResponse.json({ success: true });
+
+  } catch (error) {
+    console.error("SEND OTP ERROR:", error);
+
+    return NextResponse.json(
+      { error: "Failed to send OTP" },
+      { status: 500 }
+    );
+  }
 }
