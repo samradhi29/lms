@@ -1,6 +1,6 @@
-export const dynamic = "force-dynamic"; // ✅ SSR (VERY IMPORTANT)
+export const dynamic = "force-dynamic";
 
-import { prisma } from "@/lib/prisma"; // ✅ singleton
+import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +24,7 @@ export default async function CoursesPage() {
   return (
     <div className="bg-black min-h-screen text-white">
 
-      {/* Hero */}
+    
       <div className="max-w-6xl mx-auto px-4 pt-16 pb-10 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-700 bg-white/5 backdrop-blur mb-6">
           <Sparkles size={14} className="text-emerald-400" />
@@ -33,7 +33,7 @@ export default async function CoursesPage() {
 
         <h1 className="text-4xl sm:text-6xl font-bold mb-4">
           <span>All </span>
-          <span className="bg-clip-text text-transparent">Courses</span>
+          <span className="bg-clip-text text-white">Courses</span>
         </h1>
 
         <p className="text-gray-400 text-lg max-w-xl mx-auto">
@@ -41,7 +41,7 @@ export default async function CoursesPage() {
         </p>
       </div>
 
-      {/* Courses */}
+    
       <div className="max-w-6xl mx-auto px-4 pb-20">
         {courses.length === 0 ? (
           <div className="text-center py-24">
@@ -73,7 +73,7 @@ export default async function CoursesPage() {
                     </p>
                   </CardContent>
 
-                  <CardFooter className="px-6 pb-6 flex justify-between">
+                  <CardFooter className="px-6 pb-6 flex justify-between bg-mist-900">
                     <div>
                       <p className="text-xs text-white">Price</p>
                       <p className={`text-xl font-bold ${g.accent}`}>
