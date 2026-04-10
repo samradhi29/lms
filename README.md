@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lerahub – Course Platform
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Lerahub is a course platform built using a modern tech stack including Next.js, Node.js, PostgreSQL, Tailwind CSS, and shadcn/ui. It provides a scalable and user-friendly interface for managing and accessing courses.
+
+---
+
+## Tech Stack
+
+* Next.js
+* Node.js
+* PostgreSQL
+* Prisma ORM (v5.5)
+* Tailwind CSS
+* shadcn/ui
+
+---
+
+## Prerequisites
+
+Ensure you have the following installed:
+
+* Node.js (version 18 or higher)
+* PostgreSQL
+
+---
+
+## Live Deployment
+
+The application is deployed at:
+https://lms12365.vercel.app/
+
+---
+
+## Steps to Run Locally
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/samradhi29/lms.git
+cd lms
+```
+
+---
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+### 3. Initialize Next.js (if required)
+
+```bash
+npx create-next-app@latest
+```
+
+Select default settings (Tailwind CSS will be configured automatically).
+
+---
+
+### 4. Setup shadcn/ui
+
+```bash
+npx shadcn-ui@latest init
+```
+
+Add components as needed:
+
+```bash
+npx shadcn-ui@latest add button
+npx shadcn-ui@latest add card
+```
+
+---
+
+### 5. Database Setup (PostgreSQL + Prisma)
+
+Install Prisma:
+
+```bash
+npm install prisma@5.5.0 @prisma/client@5.5.0
+```
+
+Initialize Prisma:
+
+```bash
+npx prisma init
+```
+
+---
+
+### 6. Configure Environment Variables
+
+Create a `.env` file in the root directory and add your database connection string:
+
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/database_name"
+```
+
+---
+
+### 7. Run Database Migrations
+
+```bash
+npx prisma migrate dev --name init
+```
+
+---
+
+### 8. Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+---
+
+### 9. Open Prisma Studio (Optional)
+
+```bash
+npx prisma studio
+```
+
+---
+
+### 10. Run the Application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Notes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* Ensure PostgreSQL is running before starting the application.
+* Verify that the `.env` file is properly configured.
+* Run migrations before accessing database-dependent features.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.
