@@ -1,4 +1,4 @@
-// app/page.tsx
+
 "use client";
 
 import {
@@ -116,7 +116,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 4 Images Grid */}
+   
       <div className="grid grid-cols-2 gap-4 max-w-xl mx-auto px-6 mt-4 mb-20">
         {[
           "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80",
@@ -138,7 +138,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* 4 Feature Cards */}
+    
       <div className="max-w-5xl mx-auto px-6 mb-20">
         <h2 className="text-2xl font-bold text-white mb-1 text-center">What do we have?</h2>
         <p className="text-white text-4xl text-center mb-10">Everything you need to go from zero to job-ready.</p>
@@ -173,7 +173,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="border-t border-white/5 py-8 px-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
           <div>

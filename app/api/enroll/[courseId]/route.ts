@@ -6,7 +6,7 @@ import { getUserFromToken } from "@/lib/auth";
 
 export async function POST(
   req: Request,
-  context: { params: Promise<{ courseId: string }> } // ✅ FIXED
+  context: { params: Promise<{ courseId: string }> }
 ) {
   try {
     const user = await getUserFromToken();
@@ -15,7 +15,7 @@ export async function POST(
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    const { courseId } = await context.params; // ✅ FIXED
+    const { courseId } = await context.params; 
 
     const parsedCourseId = Number(courseId);
 

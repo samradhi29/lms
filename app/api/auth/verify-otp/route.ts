@@ -1,4 +1,4 @@
-export const runtime = "nodejs"; // ✅ VERY IMPORTANT
+export const runtime = "nodejs"; 
 
 import { prisma } from "@/lib/prisma";
 import jwt from "jsonwebtoken";

@@ -1,4 +1,4 @@
-export const runtime = "nodejs"; // ✅ REQUIRED
+export const runtime = "nodejs"; 
 export const dynamic = "force-dynamic";
 
 import { prisma } from "@/lib/prisma";
