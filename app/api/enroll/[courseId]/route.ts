@@ -1,12 +1,12 @@
-export const runtime = "nodejs"; // ✅ important
+export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma"; // ✅ singleton
+import { prisma } from "@/lib/prisma";
 import { getUserFromToken } from "@/lib/auth";
 
 export async function POST(
   req: Request,
-  { params }: { params: { courseId: string } } // ✅ fixed
+  context: { params: Promise<{ courseId: string }> } // ✅ FIXED
 ) {
   try {
     const user = await getUserFromToken();
@@ -15,7 +15,9 @@ export async function POST(
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    const parsedCourseId = Number(params.courseId); // ✅ no await
+    const { courseId } = await context.params; // ✅ FIXED
+
+    const parsedCourseId = Number(courseId);
 
     if (!parsedCourseId || isNaN(parsedCourseId)) {
       return NextResponse.json(
