@@ -44,7 +44,7 @@ export default function LoginComponent() {
           <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center rounded-xl border border-blue-700/40 bg-blue-900/25">
             <ShieldCheck size={22} className="text-blue-400" />
           </div>
-          <h1 className="text-xl font-bold text-white">Sign in to Learnopia</h1>
+          <h1 className="text-xl font-bold text-white">Sign in to LearnHub</h1>
           <p className="text-gray-400 text-sm mt-1">
             {step === 1
               ? "Enter your email to receive a one-time code."

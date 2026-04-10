@@ -47,7 +47,7 @@ export default function Home() {
 
       {/* Navbar */}
       <div className="flex justify-between items-center px-6 py-4 border-b border-white/5">
-        <h4 className="text-xl font-bold text-white">Learnopia</h4>
+        <h4 className="text-xl font-bold text-white">Learnhub</h4>
         <div className="flex gap-3">
           <Link href="/login">
             <Button
@@ -177,7 +177,7 @@ export default function Home() {
       <footer className="border-t border-white/5 py-8 px-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
           <div>
-            <h3 className="text-base font-semibold text-white">Learnopia</h3>
+            <h3 className="text-base font-semibold text-white">Learnhub</h3>
             <p className="text-sm text-gray-600 mt-1">Structured learning, beautifully delivered.</p>
           </div>
           <div className="flex gap-5 text-sm text-gray-600">
@@ -186,7 +186,7 @@ export default function Home() {
             <Link href="/contact" className="hover:text-blue-400 transition">Contact</Link>
           </div>
           <div className="text-sm text-gray-700">
-            © {new Date().getFullYear()} Learnopia. All rights reserved.
+            © {new Date().getFullYear()} Learnhub. All rights reserved.
           </div>
         </div>
       </footer>
