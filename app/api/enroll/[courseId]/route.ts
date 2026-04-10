@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import { getUserFromToken } from "@/lib/auth";
+export const runtime = "nodejs"; // ✅ important
 
-const prisma = new PrismaClient();
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma"; // ✅ singleton
+import { getUserFromToken } from "@/lib/auth";
 
 export async function POST(
   req: Request,
-  { params }: { params: Promise<{ courseId: string }> }
+  { params }: { params: { courseId: string } } // ✅ fixed
 ) {
   try {
     const user = await getUserFromToken();
@@ -15,8 +15,7 @@ export async function POST(
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    const resolvedParams = await params;
-    const parsedCourseId = Number(resolvedParams.courseId);
+    const parsedCourseId = Number(params.courseId); // ✅ no await
 
     if (!parsedCourseId || isNaN(parsedCourseId)) {
       return NextResponse.json(
@@ -31,7 +30,6 @@ export async function POST(
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
- 
     const existingUser = await prisma.user.findUnique({
       where: { id: parsedUserId },
     });
@@ -40,7 +38,6 @@ export async function POST(
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-   
     const existingCourse = await prisma.course.findUnique({
       where: { id: parsedCourseId },
     });
@@ -52,7 +49,6 @@ export async function POST(
       );
     }
 
-    
     const existing = await prisma.enrollment.findFirst({
       where: {
         userId: parsedUserId,
@@ -72,7 +68,7 @@ export async function POST(
     return NextResponse.redirect(new URL("/dashboard", req.url));
 
   } catch (error) {
-    console.error(error);
+    console.error("ENROLL ERROR:", error);
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
