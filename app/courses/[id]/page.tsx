@@ -1,5 +1,5 @@
 // app/courses/[id]/page.tsx
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { getUserFromToken } from "@/lib/auth";
 import { Badge } from "@/components/ui/badge";
@@ -22,14 +22,11 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-const prisma = new PrismaClient();
-
 export default async function CoursePage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-
   const resolvedParams = await params;
   const courseId = Number(resolvedParams.id);
 
@@ -41,9 +38,7 @@ export default async function CoursePage({
     );
   }
 
-  
   const user = await getUserFromToken();
-
 
   const course = await prisma.course.findUnique({
     where: { id: courseId },
@@ -62,14 +57,12 @@ export default async function CoursePage({
     );
   }
 
- 
   let isEnrolled = false;
 
   if (user) {
     const enrollment = await prisma.enrollment.findFirst({
       where: { userId: Number(user.userId), courseId },
     });
-
     isEnrolled = !!enrollment;
   }
 
@@ -81,8 +74,6 @@ export default async function CoursePage({
 
   return (
     <div className="bg-[#080810] min-h-screen text-white">
-
-      
       <div
         className="border-b border-white/5"
         style={{
@@ -91,8 +82,6 @@ export default async function CoursePage({
         }}
       >
         <div className="max-w-5xl mx-auto px-6 py-14">
-
-       
           <div className="flex items-center gap-2 text-sm text-gray-600 mb-8">
             <Link href="/courses" className="hover:text-blue-400 transition">
               Courses
@@ -102,22 +91,16 @@ export default async function CoursePage({
           </div>
 
           <div className="flex flex-col lg:flex-row gap-12 items-start">
-
-           
             <div className="flex-1">
               <Badge className="mb-5 bg-blue-950/70 text-blue-400 border border-blue-700/60 rounded-full px-3 py-1 text-xs tracking-wide">
                 Online Course
               </Badge>
-
               <h1 className="text-3xl sm:text-5xl font-bold leading-tight mb-5 text-white">
                 {course.title}
               </h1>
-
               <p className="text-gray-400 text-base leading-relaxed max-w-2xl mb-8">
                 {course.description}
               </p>
-
-             
               <div className="flex flex-wrap gap-5 text-sm text-gray-500">
                 <div className="flex items-center gap-2">
                   <LayoutList size={15} className="text-blue-400" />
@@ -138,12 +121,10 @@ export default async function CoursePage({
               </div>
             </div>
 
-        
             <div
               className="w-full lg:w-80 rounded-2xl p-6 shrink-0 border border-blue-700/30"
               style={{
-                background:
-                  "linear-gradient(160deg, #0a0e1a 0%, #080c16 100%)",
+                background: "linear-gradient(160deg, #0a0e1a 0%, #080c16 100%)",
                 boxShadow:
                   "0 0 0 1px rgba(37,99,235,0.15), 0 20px 60px rgba(37,99,235,0.12)",
               }}
@@ -154,7 +135,6 @@ export default async function CoursePage({
               <p className="text-xs text-gray-600 mb-6 uppercase tracking-widest">
                 One-time payment
               </p>
-
               <Separator className="bg-white/5 mb-6" />
 
               {!user ? (
@@ -209,7 +189,6 @@ export default async function CoursePage({
                 </li>
               </ul>
             </div>
-
           </div>
         </div>
       </div>
@@ -280,7 +259,6 @@ export default async function CoursePage({
           ))}
         </Accordion>
       </div>
-
     </div>
   );
 }
