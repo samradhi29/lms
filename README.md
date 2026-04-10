@@ -99,6 +99,9 @@ Create a `.env` file in the root directory and add your database connection stri
 
 ```env
 DATABASE_URL="postgresql://username:password@localhost:5432/database_name"
+EMAIL_USER="your-email@example.com"
+EMAIL_PASS="your-email-app-password"
+JWT_SECRET="your-secret-key"
 ```
 
 ---
